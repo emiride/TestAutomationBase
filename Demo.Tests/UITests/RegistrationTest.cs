@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Demo.Tests.UITests
 {
-    public class ResgistrationTest : BaseTest
+    public class RegistrationTest : BaseTest
     {
 
         [Test, Property("Test", "1")]

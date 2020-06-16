@@ -98,7 +98,8 @@ namespace Demo.Core
             {
                 var options = new ChromeOptions();
                 options.AddArgument("--start-maximized");
-                _webDriver = new RemoteWebDriver(options);
+                var remoteAddress = Environment.GetEnvironmentVariable("SELENIUM_GRID_URL");
+                _webDriver = remoteAddress == null ? new RemoteWebDriver(options) : new RemoteWebDriver(new Uri($"http://{remoteAddress}"), options);
             }
             else
             {
