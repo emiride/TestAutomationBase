@@ -6,4 +6,4 @@
     dockerComposeFile: '**/docker-compose-pipeline.yml'
     action: 'Run a Docker Compose command'
     dockerComposeCommand: 'up'
-    arguments: '--build'
+    arguments: '--build --abort-on-container-exit'
