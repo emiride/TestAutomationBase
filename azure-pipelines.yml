@@ -1,45 +1,9 @@
-# Docker
 - task: DockerCompose@0
   inputs:
-    containerregistrytype: 'Container Registry'
-    dockerRegistryEndpoint: 'DockerDemoContainerRegistry2'
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Azure subscription 1(ff0505e9-c1a9-47e2-8954-432c27ffad1e)'
+    azureContainerRegistry: '{"loginServer":"dockerdemocontainerregistry2.azurecr.io", "id" : "/subscriptions/ff0505e9-c1a9-47e2-8954-432c27ffad1e/resourceGroups/ContainerRegistryResourceGroup/providers/Microsoft.ContainerRegistry/registries/DockerDemoContainerRegistry2"}'
     dockerComposeFile: '**/docker-compose-pipeline.yml'
     action: 'Run a Docker Compose command'
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
-trigger:
-- master
-
-resources:
-- repo: self
-
-variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '4ac24e69-5c4c-46cc-9db0-462843dda2f2'
-  imageRepository: 'emiridetestautomationbase'
-  containerRegistry: 'dockerdemocontainerregistry2.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
-  
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
-
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:  
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+    dockerComposeCommand: 'up'
+    arguments: '--build'
